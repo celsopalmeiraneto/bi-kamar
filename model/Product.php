@@ -3,6 +3,7 @@ namespace bi\Model;
 
 class Product{
     protected $productId;
+    protected $externalId;
     protected $name;
     protected $manufacturer;
     protected $distributor;
@@ -15,6 +16,14 @@ class Product{
     }
     public function setProductId($productId) {
         $this->productId = $productId;
+        return $this;
+    }
+
+    public function getExternalId() {
+        return $this->externalId;
+    }
+    public function setExternalId($externalId) {
+        $this->externalId = $externalId;
         return $this;
     }
 
@@ -56,6 +65,12 @@ class Product{
     public function setLine($line) {
         $this->line = $line;
         return $this;
+    }
+
+    public function getCRC32(){
+        $string = "";
+        $string .= $this->externalId.$this->name.$this->manufacturer.$this->distributor.$this->category.$this->line;
+        return hash("crc32", $string);
     }
 
 }

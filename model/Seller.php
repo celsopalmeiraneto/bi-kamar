@@ -2,9 +2,8 @@
 namespace bi\Model;
 class Seller{
     protected $sellerId;
-    protected $extenalId;
+    protected $externalId;
     protected $name;
-
 
     public function getSellerId() {
         return $this->sellerId;
@@ -28,6 +27,12 @@ class Seller{
     public function setName($name) {
         $this->name = $name;
         return $this;
+    }
+
+    public function getCRC32(){
+        $string = "";
+        $string .= trim($this->externalId).trim($this->name);
+        return hash("crc32", $string);
     }
 }
 ?>

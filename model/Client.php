@@ -93,5 +93,11 @@ class Client
         $this->district = $district;
         return $this;
     }
+
+    public function getCRC32(){
+        $string  = "";
+        $string .= $this->externalId.$this->name.$this->city.$this->neighborhood.$this->getZip().$this->zip.$this->country.$this->state.$this->district;
+        return hash("crc32", $string);
+    }
 }
 ?>

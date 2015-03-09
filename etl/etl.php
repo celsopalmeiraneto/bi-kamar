@@ -7,18 +7,21 @@ include '../model/Product.php';
 include '../model/Seller.php';
 include '../model/Sale.php';
 include '../model/Date.php';
-include 'etlClient.php';
-include 'etlProduct.php';
-include 'etlSeller.php';
+include 'ETLBase.php';
+include 'ETLClient.php';
+include 'ETLProduct.php';
+include 'ETLSeller.php';
 include 'etlSale.php';
 
-
+/*
 $retClient = etlClient();
 if($retClient !== true){
     writeCSVError("client.csv",$retClient);
 }
-etlProduct();
-etlSeller();
+etlProduct();*/
+(new ETLSeller())->runETL();
+(new ETLProduct())->runETL();
+(new ETLClient())->runETL();
 
 function writeCSVError($file,$data){
     $handler = fopen($file,"w");
