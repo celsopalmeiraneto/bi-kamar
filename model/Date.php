@@ -13,19 +13,19 @@ class Date extends \DateTime{
         return $this;
     }
     function getSemester(){
-        return ceil($this->format("mm")/6);
+        return ceil($this->format("m")/6);
     }
     function getTrimester(){
-        return ceil($this->format("mm")/3);
+        return ceil($this->format("m")/3);
     }
     function getYear(){
-        return $this->format("YY")*1;
+        return $this->format("Y")*1;
     }
     function getMonth(){
-        return $this->format("mm")*1;
+        return $this->format("m")*1;
     }
     function getDay(){
-        return $this->format("DD")*1;
+        return $this->format("d")*1;
     }
     function getDayOfWeek(){
         $julianDay = cal_to_jd(CAL_GREGORIAN, $this->getMonth(), $this->getDay(), $this->getYear());

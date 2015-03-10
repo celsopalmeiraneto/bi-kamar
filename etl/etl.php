@@ -11,7 +11,7 @@ include 'ETLBase.php';
 include 'ETLClient.php';
 include 'ETLProduct.php';
 include 'ETLSeller.php';
-include 'etlSale.php';
+include 'ETLSale.php';
 
 /*
 $retClient = etlClient();
@@ -19,9 +19,10 @@ if($retClient !== true){
     writeCSVError("client.csv",$retClient);
 }
 etlProduct();*/
-(new ETLSeller())->runETL();
-(new ETLProduct())->runETL();
-(new ETLClient())->runETL();
+//(new ETLSeller())->runETL();
+//(new ETLProduct())->runETL();
+//(new ETLClient())->runETL();
+(new ETLSale())->runETL();
 
 function writeCSVError($file,$data){
     $handler = fopen($file,"w");

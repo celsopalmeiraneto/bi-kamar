@@ -8,6 +8,12 @@ class Sale{
     protected $profit;
     protected $discount;
 
+//////Support attributes!
+    protected $dateId;
+    protected $sellerId;
+    protected $productId;
+    protected $clientId;
+
 
     public function getId() {
         return $this->id;
@@ -54,6 +60,39 @@ class Sale{
     }
     public function setDiscount($discount) {
         $this->discount = $discount;
+        return $this;
+    }
+
+//////Support Methods
+    public function getDateId() {
+        return $this->dateId;
+    }
+    public function setDateId($dateId) {
+        $this->dateId = $dateId;
+        return $this;
+    }
+
+    public function getSellerId() {
+        return $this->sellerId;
+    }
+    public function setSellerId($sellerId) {
+        $this->sellerId = $sellerId;
+        return $this;
+    }
+
+    public function getProductId() {
+        return $this->productId;
+    }
+    public function setProductId($productId) {
+        $this->productId = $productId;
+        return $this;
+    }
+
+    public function getClientId() {
+        return $this->clientId;
+    }
+    public function setClientId($clientId) {
+        $this->clientId = $clientId;
         return $this;
     }
 }
