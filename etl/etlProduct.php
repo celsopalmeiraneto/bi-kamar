@@ -41,7 +41,9 @@ class ETLProduct extends ETLBase{
 
             $codFabricanteTmp = trim($oldProduct["FABRIC"]);
             if($codFabricanteTmp != "" && !isset($fornecedores[$codFabricanteTmp])){
-                $fornecedores[$codFabricanteTmp] = $banco->escape_string($this->buscaFornecedorPorCodigo($codFabricanteTmp));
+                $fornTmp = $banco->escape_string($this->buscaFornecedorPorCodigo($codFabricanteTmp));
+                if(strlen(trim($fornTmp))>0)
+                    $fornecedores[$codFabricanteTmp] = $banco->escape_string($this->buscaFornecedorPorCodigo($codFabricanteTmp));
             }
             if(isset($fornecedores[$codFabricanteTmp])){
                 $newProduct->setManufacturer($fornecedores[$codFabricanteTmp]);
@@ -51,7 +53,9 @@ class ETLProduct extends ETLBase{
 
             $codFornecTmp = trim($oldProduct["FORNEC"]);
             if($codFornecTmp != "" && !isset($fornecedores[$codFornecTmp])){
-                $fornecedores[$codFornecTmp] = $banco->escape_string($this->buscaFornecedorPorCodigo($codFornecTmp));
+                $fornTmp = $banco->escape_string($this->buscaFornecedorPorCodigo($codFornecTmp));
+                if(strlen(trim($fornTmp))>0)
+                    $fornecedores[$codFornecTmp] = $banco->escape_string($this->buscaFornecedorPorCodigo($codFornecTmp));
             }
             if(isset($fornecedores[$codFornecTmp])){
                 $newProduct->setDistributor($fornecedores[$codFornecTmp]);
@@ -61,7 +65,9 @@ class ETLProduct extends ETLBase{
 
             $codLinhaTmp = trim($oldProduct["LINHA"]);
             if($codLinhaTmp != "" && !isset($linhas[$codLinhaTmp])){
-                $linhas[$codLinhaTmp] = $banco->escape_string($this->buscaLinhaPorCodigo($codLinhaTmp));
+                $linhaTmp = $banco->escape_string($this->buscaLinhaPorCodigo($codLinhaTmp));
+                if(strlen(trim($linhaTmp))>0)
+                    $linhas[$codLinhaTmp] = $linhaTmp;
             }
             if(isset($linhas[$codLinhaTmp])){
                 $newProduct->setLine($linhas[$codLinhaTmp]);
@@ -69,9 +75,12 @@ class ETLProduct extends ETLBase{
                 $newProduct->setLine("---");
             }
 
+
             $codGrupoTmp = trim($oldProduct["GRUPO"]);
             if($codGrupoTmp != "" && !isset($grupos[$codGrupoTmp])){
-                $grupos[$codGrupoTmp] = $banco->escape_string($this->buscaGrupoPorCodigo($codGrupoTmp));
+                $grupoTmp = $banco->escape_string($this->buscaGrupoPorCodigo($codGrupoTmp));
+                if(strlen(trim($grupoTmp))>0)
+                    $grupos[$codGrupoTmp] = $grupoTmp;
             }
             if(isset($grupos[$codGrupoTmp])){
                 $newProduct->setCategory($grupos[$codGrupoTmp]);
@@ -153,7 +162,7 @@ class ETLProduct extends ETLBase{
         $numRec  = dbase_numrecords($handFornec);
         for ($i=0; $i < $numRec; $i++) {
             $fornecedor = dbase_get_record_with_names($handFornec, $i);
-            if($fornecedor["CODIGO"]==$codigo){
+            if($fornecedor["CODIGO"]==$codigo  && $fornecedor["deleted"] == 0){
                 $retorno = $fornecedor["FANTASIA"];
             }
         }
@@ -166,10 +175,10 @@ class ETLProduct extends ETLBase{
         $numRec  = dbase_numrecords($handGrupo);
         for ($i=0; $i < $numRec; $i++) {
             $grupo = dbase_get_record_with_names($handGrupo, $i);
-            if($grupo["CODIGO"]==$codigo){
+            if($grupo["CODIGO"]==$codigo && $grupo["deleted"] == 0){
                 $retorno = $grupo["NOME"];
             }
-        }
+        }        
         dbase_close($handGrupo);
         return $retorno;
     }
@@ -179,7 +188,7 @@ class ETLProduct extends ETLBase{
         $numRec  = dbase_numrecords($handLinha);
         for ($i=0; $i < $numRec; $i++) {
             $linha = dbase_get_record_with_names($handLinha, $i);
-            if($linha["CODIGO"]==$codigo){
+            if($linha["CODIGO"]==$codigo  && $linha["deleted"] == 0){
                 $retorno = $linha["NOME"];
             }
         }

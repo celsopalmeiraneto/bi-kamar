@@ -7,11 +7,14 @@ include '../model/Product.php';
 include '../model/Seller.php';
 include '../model/Sale.php';
 include '../model/Date.php';
+include '../model/Synop.php';
+include '../model/WeatherStation.php';
 include 'ETLBase.php';
 include 'ETLClient.php';
 include 'ETLProduct.php';
 include 'ETLSeller.php';
 include 'ETLSale.php';
+include 'ETLSynop.php';
 
 /*
 $retClient = etlClient();
@@ -20,9 +23,12 @@ if($retClient !== true){
 }
 etlProduct();*/
 //(new ETLSeller())->runETL();
-//(new ETLProduct())->runETL();
+(new ETLProduct())->runETL();
 //(new ETLClient())->runETL();
-(new ETLSale())->runETL();
+//(new ETLSale())->runETL();
+
+//(new ETLSynop())->runETL();
+
 
 function writeCSVError($file,$data){
     $handler = fopen($file,"w");

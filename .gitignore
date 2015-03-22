@@ -1,3 +1,4 @@
 /etl/data
+/etl/*.csv
 /Dev/*.zip
 /Dev/*.rar
