@@ -9,8 +9,9 @@
 | Processes Identification and Definition | Feb. 2014 |
 | Facts and Dimensions Definition | Feb. 2014 |
 | Data of Facts and Dimensions | Feb. 2014 |
-| Sources Definition | Feb.2014 (will be revised) |
-| ETL Process for Each Source | Mar. 2014 (will be revised) |
+| Sources Definition | Mar. 2014 |
+| ETL Process for Each Source | Mar. 2014 |
+| REST "Server" | |
 | User Interface | |
 | Graphics Interface | |
 | Statistical Reports | |
