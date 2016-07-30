@@ -1,6 +1,6 @@
 # biKamar
 
-##Goal 
+##Goal
 * Create a BI solution where the KAMAR managers can have a complete vision of their sales, providing enough information about their sales, clients, and products.
 
 ##Milestones

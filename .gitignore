@@ -1,4 +1,4 @@
 /etl/data
 /etl/*.csv
-/Dev/*.zip
-/Dev/*.rar
+/viewApp/bower_components
+*.DS_Store

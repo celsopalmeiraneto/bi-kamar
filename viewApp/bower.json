@@ -1,0 +1,24 @@
+{
+  "name": "bikamar",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Celso Neto"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/celsopalmeiraneto/biKamar",
+  "moduleType": [
+    "amd"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "openui5-sap.ui.core": "openui5/packaged-sap.ui.core#^1.40.3"
+  }
+}

@@ -58,7 +58,7 @@ date_default_timezone_set("America/New_York");
             foreach ($columns as $value) {
                 echo "<th>$value</th>";
             }
-            echo "<th>Deleted</th>";
+            echo "<th>deleted</th>";
             echo "</tr>";
             unset($fileHeader);
             unset($columns);
@@ -67,11 +67,13 @@ date_default_timezone_set("America/New_York");
 
             for ($i=$offSet; ($i<$numRec && $i < $limit); $i++) {
                 $line = dbase_get_record_with_names($handler, $i);
+                //echo var_dump($line);
+                //exit;
                 if(eval($condition)){
                     $shownLines++;
                     echo "<tr>";
                     echo "<td>$i</td>";
-                    foreach ($line as $column) {
+                    foreach ($line as $name => $column) {
                         echo "<td>$column</td>";
                     }
                     echo "</tr>";
