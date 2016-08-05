@@ -2,3 +2,4 @@
 /etl/*.csv
 /viewApp/bower_components
 *.DS_Store
+viewApp/resources

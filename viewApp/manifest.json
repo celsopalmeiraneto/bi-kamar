@@ -1,0 +1,101 @@
+{
+	"_version": "1.1.0",
+	"sap.app": {
+		"_version": "1.1.0",
+		"id": "br.com.celsoneto.biKamar",
+		"type": "application",
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.32.0"
+		}
+	},
+	"sap.ui": {
+		"_version": "1.1.0",
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_bluecrystal"
+		]
+	},
+	"sap.ui5": {
+		"_version": "1.1.0",
+		"rootView": {
+			"viewName": "br.com.celsoneto.biKamar.view.App",
+			"type": "XML"
+		},
+		"dependencies": {
+			"minUI5Version": "1.30.0",
+			"libs": {
+				"sap.ui.core": {},
+				"sap.m": {},
+				"sap.ui.layout": {}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "br.com.celsoneto.biKamar.i18n.i18n"
+				}
+			}
+		},
+		"resources": {
+			"css": []
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "br.com.celsoneto.biKamar.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"transition": "slide"
+			},
+			"routes": [
+				{
+					"name": "home",
+					"pattern": "",
+					"target": "home"
+				},
+        {
+					"name": "SalesAnalysis",
+					"pattern": "",
+					"target": "SalesAnalysis"
+				}
+			],
+			"targets": {
+				"home": {
+					"viewName": "App",
+					"viewLevel": 1
+				},
+        "SalesAnalysis": {
+					"viewName": "SalesAnalysis",
+					"viewLevel": 2
+				}
+			}
+		}
+	}
+}

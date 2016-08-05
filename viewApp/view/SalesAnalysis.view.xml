@@ -1,0 +1,8 @@
+<mvc:View controllerName="br.com.celsoneto.biKamar.controller.SalesAnalysis"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc">
+  <Page>
+    <content>
+      <Text text="Celso" />
+    </content>
+  </Page>
+</mvc:View>
