@@ -1,9 +1,9 @@
 # biKamar
 
-##Goal
+## Goal
 * Create a BI solution where the KAMAR managers can have a complete vision of their sales, providing enough information about their sales, clients, and products.
 
-##Milestones
+## Milestones
 | Milestone | Date Achievement |
 | ----------- | ----------------- |
 | Processes Identification and Definition | Feb. 2014 |
@@ -18,7 +18,7 @@
 | Machine Learning Reports | |
 
 
-##Processes Identification and Definition
+## Processes Identification and Definition
 
 Only the process of sales will be into the scope of this project.
 The most important data about sales, will be:
@@ -36,7 +36,7 @@ For all sales, the following data will be analyzed:
 * Clients
 
 
-###Products
+### Products
 
 From each sale, the following data of products will be analyzed:
 
@@ -45,6 +45,6 @@ From each sale, the following data of products will be analyzed:
 * Manufacturer
 * Distributor
 
-###Clients
+### Clients
 
 * Region
