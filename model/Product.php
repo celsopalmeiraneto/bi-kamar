@@ -2,13 +2,13 @@
 namespace bi\Model;
 
 class Product{
-    protected $productId;
-    protected $externalId;
-    protected $name;
-    protected $manufacturer;
-    protected $distributor;
-    protected $category;
-    protected $line;
+    public $productId;
+    public $externalId;
+    public $name;
+    public $manufacturer;
+    public $distributor;
+    public $category;
+    public $line;
 
 
     public function getProductId() {

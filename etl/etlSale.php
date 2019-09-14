@@ -24,7 +24,6 @@ class ETLSale extends ETLBase{
         if(!$banco->query($query))
             die($banco->error.$query);
 
-
         for ($i=1; $i <= $numRec; $i++) {
 
             if($i%1000==0)
@@ -32,8 +31,14 @@ class ETLSale extends ETLBase{
 
             $oldSale = dbase_get_record_with_names($handSale, $i);
 
-            if($oldSale["deleted"] == 1 || trim($oldSale["DATA"])=="" || trim($oldSale["TIPOMOV"]!="VE" || trim($oldSale["CODIGO"])=="")){
+            //Basic conditions for ETL
+            if($oldSale["deleted"] == 1 || trim($oldSale["DATA"])=="" || trim($oldSale["CODIGO"])==""){
                 continue;
+            }
+
+            //Importing only sales and returns.
+            if(strpos("DV, VE", trim($oldSale["TIPOMOV"]))===false){
+              continue;
             }
 
             $newSale = new \bi\Model\Sale();
@@ -42,10 +47,18 @@ class ETLSale extends ETLBase{
             $newSale->setQuantity  ($oldSale["QUANTI"]*1);
             $newSale->setTotal     ($newSale->getQuantity()*$oldSale["PVENDA"]);
             $newSale->setProfit    ($newSale->getTotal()-($newSale->getQuantity()*$oldSale["PCUSTO"]));
+            $newSale->setIsReturn  ($oldSale["TIPOMOV"]=="DV"?true:false);
             if($oldSale["PRECOLISTA"]>0)
                 $newSale->setDiscount  ($oldSale["PRECOLISTA"]-$oldSale["PVENDA"]);
             else
                 $newSale->setDiscount(0);
+
+            if($newSale->getIsReturn()){
+              $newSale->setQuantity($newSale->getQuantity()*-1);
+              $newSale->setTotal($newSale->getTotal()*-1);
+              $newSale->setProfit($newSale->getProfit()*-1);
+              $newSale->setDiscount($newSale->getDiscount()*-1);
+            }
 
 
             if($oldSale["DATA"]!=$dateTmp){
@@ -61,13 +74,13 @@ class ETLSale extends ETLBase{
                     $idTmp = $idTmp[0]*1;
                     $dateSale->setId($idTmp);
                 }else{
-                    $query = "Insert into d_date (dateid, day, month, year, dayOfWeek, trimester, semester) values 
-                        (0, 
-                        ".$dateSale->getDay().", 
-                        ".$dateSale->getMonth().", 
+                    $query = "Insert into d_date (dateid, day, month, year, dayOfWeek, trimester, semester) values
+                        (0,
+                        ".$dateSale->getDay().",
+                        ".$dateSale->getMonth().",
                         ".$dateSale->getYear().",
                         ".$dateSale->getDayOfWeek().",
-                        ".$dateSale->getTrimester().",                        
+                        ".$dateSale->getTrimester().",
                         ".$dateSale->getSemester().")";
                     $res = $banco->query($query);
                     if(!$res)
@@ -102,6 +115,7 @@ class ETLSale extends ETLBase{
             `total`,
             `profit`,
             `discount`,
+            is_return,
             `d_date_dateid`,
             `d_seller_sellerid`,
             `d_product_productid`,
@@ -113,11 +127,12 @@ class ETLSale extends ETLBase{
             ".$newSale->getTotal().",
             ".$newSale->getProfit().",
             ".$newSale->getDiscount().",
+            ".($newSale->getIsReturn()?1:0).",
             ".$newSale->getDateId().",
             ".$newSale->getSellerId().",
             ".$newSale->getProductId().",
             ".$newSale->getClientId().")";
-            
+
             $res = $banco->query($query);
             if(!$res)
                 die($banco->error.$query);

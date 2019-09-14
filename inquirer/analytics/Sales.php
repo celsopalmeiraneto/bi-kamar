@@ -1,5 +1,7 @@
 <?php
-namespace bi\Inquirer;
+namespace bi\Inquirer\Analytics;
+
+
 include 'loader.php';
 if(isset($_GET["years"])){
     $years = $_GET["years"];
@@ -14,13 +16,13 @@ if(isset($_GET["years"])){
         $where = " where ";
         for ($i=0; $i < count($years); $i++) {
             if($i>0)
-                $where .= " or "; 
+                $where .= " or ";
             $where .= " dt.year = ".$years[$i]." ";
         }
 
-        $query = "select 
+        $query = "select
                     dt.year as year,dt.month as month,
-                    sum(s.total) as sales 
+                    sum(s.total) as sales
                     from f_sale s
                     inner join d_date dt on dt.dateid = s.d_date_dateid
                     $where
@@ -32,7 +34,7 @@ if(isset($_GET["years"])){
             $data[$line["month"]][array_search($line["year"],$years)] = $line["sales"]+0;
         }
         $return = array('years' => $years, 'data' => $data);
-        echo json_encode($return);        
+        echo json_encode($return);
     }
 }
 ?>

@@ -3,3 +3,4 @@
 /viewApp/bower_components
 *.DS_Store
 viewApp/resources
+inquirer/vendor/*

@@ -1,0 +1,19 @@
+{
+    "name": "celsoneto/inquirer",
+    "description": "Inquirer is the REST API for Celso's BI App.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Celso Neto",
+            "email": "celsopalmeiraneto@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "^3.0",
+        "monolog/monolog": "^1.0"
+    },
+    "autoload": {
+      "psr-4": {"bi\\Model\\": "../model/",
+                "bi\\Inquirer\\Analytics\\": "./analytics/"}
+    }
+}

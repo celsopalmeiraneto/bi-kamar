@@ -7,6 +7,7 @@ class Sale{
     protected $total;
     protected $profit;
     protected $discount;
+    protected $is_return;
 
 //////Support attributes!
     protected $dateId;
@@ -61,6 +62,14 @@ class Sale{
     public function setDiscount($discount) {
         $this->discount = $discount;
         return $this;
+    }
+
+    public function getIsReturn(){
+      return $this->is_return;
+    }
+    public function setIsReturn($isReturn){
+      $this->is_return = $isReturn;
+      return $this->is_return;
     }
 
 //////Support Methods

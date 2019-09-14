@@ -30,7 +30,7 @@ if($retClient !== true){
 //(new ETLProduct())->runETL();
 //(new ETLClient())->runETL();
 //(new ETLSale())->runETL();
-(new ETLInventory())->runETL();
+//(new ETLInventory())->runETL();
 
 //(new ETLSynop())->runETL();
 

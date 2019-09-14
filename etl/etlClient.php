@@ -51,6 +51,10 @@ class ETLClient extends ETLBase{
                 $y->setState("---");
                 $y->setZip("---");
                 $y->setDistrict("---");
+                $y->setNeighborhood("---");
+                $y->setIBGE("---");
+                $y->setMesoregion("---");
+                $y->setMicroregion("---");
                 $error[] = $x;
             }else{
                 if(strlen($cityInfo["cidPai"])>0){
@@ -60,6 +64,11 @@ class ETLClient extends ETLBase{
                     $y->setCity($cityInfo["cid"]);
                     $y->setDistrict("---");
                 }
+                $y->setIBGE($cityInfo["ibge"]);
+                $y->setMesoregion($cityInfo["mesoregiao"]);
+                $y->setMicroregion($cityInfo["microrregiao"]);
+                $y->setState($cityInfo["uf"]);
+
                 if($y->getZip(true)<=0){
                     $y->setZip("---");
                 }
@@ -73,14 +82,17 @@ class ETLClient extends ETLBase{
                 $res = $res->fetch_row();
                 if($res[1]!=$y->getCRC32()){ //If the record is different.
                     $y->setId($res[0]);
-                    $query = "update d_client set 
-                    city = '".$y->getCity()."', 
-                    name =  '".$y->getName()."', 
-                    neighborhood = '".$y->getNeighborhood()."', 
-                    district = '".$y->getDistrict()."', 
-                    zip = '".$y->getZip()."', 
-                    country = '".$y->getCountry()."', 
-                    state = '".$y->getState()."'
+                    $query = "update d_client set
+                    city = '".$y->getCity()."',
+                    name =  '".$y->getName()."',
+                    neighborhood = '".$y->getNeighborhood()."',
+                    district = '".$y->getDistrict()."',
+                    zip = '".$y->getZip()."',
+                    country = '".$y->getCountry()."',
+                    state = '".$y->getState()."',
+                    ibge = '".$y->getIBGE()."',
+                    mesoregion = '".$y->getMesoregion()."',
+                    microregion = '".$y->getMicroregion()."'
                     where clientid = ".$y->getId();
                     $res = $banco->query($query);
                     if(!$res){
@@ -96,7 +108,7 @@ class ETLClient extends ETLBase{
                     $totalNoChange++;
                 }
             }else{//This record is not in the database
-                $query = "INSERT into d_client (clientid, externalid, city, name, neighborhood, district, zip, country, state)
+                $query = "INSERT into d_client (clientid, externalid, city, name, neighborhood, district, zip, country, state, ibge, mesoregion, microregion)
                 values (0,"
                     .$y->getExternalId().", '"
                     .$y->getCity()."', '"
@@ -105,7 +117,10 @@ class ETLClient extends ETLBase{
                     .$y->getDistrict()."', '"
                     .$y->getZip()."', '"
                     .$y->getCountry()."', '"
-                    .$y->getState()."')";
+                    .$y->getState()."', '"
+                    .$y->getIBGE()."', '"
+                    .$y->getMesoregion()."', '"
+                    .$y->getMicroregion()."')";
                 $res = $banco->query($query);
                 if(!$res){
                     die($banco->error."\n".$query."\n");
@@ -141,9 +156,11 @@ class ETLClient extends ETLBase{
     private function getCityByNameAndState($name,$state){
         $cep = bi\Model\DB::getConnection("cep");
         //Searching by City Name and State
-        $query = "SELECT l1.loc_nosub as cid,l1.cep as cep,l2.loc_nosub as cidPai
+        $query = "SELECT l1.loc_nosub as cid,l1.cep as cep,l2.loc_nosub as cidPai, im.cod_municipio as ibge,
+          im.nome_mesoregiao as mesoregiao, im.nome_microrregiao as microrregiao, l1.ufe_sg as uf
         FROM log_localidade l1
         Left Join log_localidade l2 on l2.loc_nu_sequencial = l1.loc_nu_sequencial_sub
+        Left Join ibge_municipio im on im.nome_municipio = l1.loc_nosub and im.uf_sigla = l1.ufe_sg
         WHERE l1.loc_nosub = '$name' and l1.ufe_sg='$state' ";
 
         $res   = $cep->query($query);
@@ -164,29 +181,29 @@ class ETLClient extends ETLBase{
 
         $cepDB = bi\Model\DB::getConnection("cep");
 
-        $query = "SELECT l1.loc_nosub as cid, l2.loc_nosub as cidPai
+        $query = "SELECT l1.loc_nosub as cid, l2.loc_nosub as cidPai, lgu.ufe_sg as uf
         From log_grande_usuario   lgu
         Inner Join log_localidade l1 on l1.loc_nu_sequencial = lgu.loc_nu_sequencial
         Left Join  log_localidade l2 on l2.loc_nu_sequencial = l1.loc_nu_sequencial_sub
         Where lgu.cep = '$zip'
-        
+
         Union All
-        SELECT l1.loc_nosub as cid, l2.loc_nosub as cidPai
+        SELECT l1.loc_nosub as cid, l2.loc_nosub as cidPai, l1.ufe_sg as uf
         From log_localidade  l1
         Left Join  log_localidade l2 on l2.loc_nu_sequencial = l1.loc_nu_sequencial_sub
         Where l1.cep = '$zip'
-        
+
         Union All
-        
-        SELECT l1.loc_nosub as cid, l2.loc_nosub as cidPai
+
+        SELECT l1.loc_nosub as cid, l2.loc_nosub as cidPai, llg.ufe_sg as uf
         From log_logradouro   llg
         Inner Join log_localidade l1 on l1.loc_nu_sequencial = llg.loc_nu_sequencial
         Left Join  log_localidade l2 on l2.loc_nu_sequencial = l1.loc_nu_sequencial_sub
         Where llg.cep = '$zip'
-        
+
         Union All
-        
-        SELECT l1.loc_nosub as cid, l2.loc_nosub as cidPai
+
+        SELECT l1.loc_nosub as cid, l2.loc_nosub as cidPai, luo.ufe_sg as uf
         From log_unid_oper  luo
         Inner Join log_localidade l1 on l1.loc_nu_sequencial = luo.loc_nu_sequencial
         Left Join  log_localidade l2 on l2.loc_nu_sequencial = l1.loc_nu_sequencial_sub
@@ -197,6 +214,20 @@ class ETLClient extends ETLBase{
         }
         if($res->num_rows>0){
             $DNEres = $res->fetch_assoc();
+
+            $nomeCidade  = $DNEres["cidPai"]?$DNEres["cidPai"]:$DNEres["cid"];
+
+            $query = "SELECT im.cod_municipio as ibge,
+              im.nome_mesoregiao as mesoregiao, im.nome_microrregiao as microrregiao
+              FROM ibge_municipio im where uf_sigla = '$DNEres[uf]' and nome_municipio = '$nomeCidade'";
+            $res = $cepDB->query($query);
+            if (!$res) {
+              throw new Exception("Error Processing Request. ".$query, 1);
+            }
+            $ibgeData = $res->fetch_assoc();
+            $DNEres["ibge"]         = $ibgeData["ibge"];
+            $DNEres["mesoregiao"]   = $ibgeData["mesoregiao"];
+            $DNEres["microrregiao"] = $ibgeData["microrregiao"];
             return $DNEres;
         }
         return false;

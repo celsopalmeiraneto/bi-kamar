@@ -1,17 +1,19 @@
 <?php
 namespace bi\Inquirer;
-include 'loader.php';
+//include 'loader.php';
+include '../vendor/autoload.php';
+
 if(isset($_GET["year"])){
     $year = $_GET["year"]+0;
     if(is_numeric($year)){
 
-        $db = \bi\model\DB::getConnection('bi');
+        $db = \bi\Model\DB::getConnection('bi');
 
         $data = array();
 
-        $query = "select 
+        $query = "select
                     p.category as cat,
-                    sum(s.total) as sales 
+                    sum(s.total) as sales
                     from f_sale s
                     inner join d_date dt   on dt.dateid = s.d_date_dateid
                     inner join d_product p on p.productid = s.d_product_productid
@@ -26,7 +28,7 @@ if(isset($_GET["year"])){
             $data[] = array(utf8_encode(trim($line["cat"])) => $line["sales"]+0);
         }
         echo json_encode($data);
-        //echo json_last_error();   
+        //echo json_last_error();
     }
 }
 ?>

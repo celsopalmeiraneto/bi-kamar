@@ -3,23 +3,23 @@ namespace bi\Model;
 
 class DB extends \mysqli{
 
-    private static $param  = array('bi' => 
+    private static $param  = array('bi' =>
                                     array("schema" => 'bi_kamar',
                                         "port"     => "3306",
                                         "host"     => "127.0.0.1",
                                         "user"     => "root",
                                         "password" => "root",
-                                        "codePage" => "utf-8")
-                                ,"cep" => 
+                                        "codePage" => "utf8")
+                                ,"cep" =>
                                     array("schema" => 'cep',
                                         "port"     => "3306",
                                         "host"     => "127.0.0.1",
                                         "user"     => "root",
                                         "password" => "root",
-                                        "codePage" => "utf-8"));
+                                        "codePage" => "utf8"));
 
     private static $connectionPool = array();
-  
+
     function __construct($id,$saveOnPool = true){
         parent::__construct(self::$param[$id]["host"],
                             self::$param[$id]["user"],
@@ -59,5 +59,5 @@ class DB extends \mysqli{
         }
     }
 
-} 
+}
 ?>

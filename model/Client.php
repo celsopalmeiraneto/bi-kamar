@@ -3,26 +3,28 @@ namespace bi\Model;
 
 class Client
 {
-    protected $id;
-    protected $externalId;
-    protected $name;
-    protected $city;
-    protected $district;
-    protected $neighborhood;
-    protected $zip;
-    protected $country;
-    protected $state;
-    
+    public $id;
+    public $externalId;
+    public $name;
+    public $city;
+    public $district;
+    public $neighborhood;
+    public $zip;
+    public $country;
+    public $state;
+    public $ibge;
+    public $mesoregion;
+    public $microregion;
+
     function __construct()
     {
     }
 
-
     public function getId() {
-        return $this->clientId;
+        return $this->id;
     }
-    public function setId($clientId) {
-        $this->clientId = $clientId;
+    public function setId($id) {
+        $this->id = $id;
         return $this;
     }
 
@@ -62,7 +64,7 @@ class Client
         if($onlyNumbers){
             return preg_replace("/\D/","", $this->zip);
         }else{
-            return $this->zip;            
+            return $this->zip;
         }
     }
     public function setZip($zip) {
@@ -82,7 +84,7 @@ class Client
         return $this->state;
     }
     public function setState($state) {
-        $this->state = $state;    
+        $this->state = $state;
         return $this;
     }
 
@@ -94,9 +96,44 @@ class Client
         return $this;
     }
 
+    public function getIBGE() {
+        return $this->ibge;
+    }
+    public function setIBGE($ibge) {
+        $this->ibge = $ibge;
+        return $this;
+    }
+
+    public function getMesoregion() {
+        return $this->mesoregion;
+    }
+    public function setMesoregion($mesoregion) {
+        $this->mesoregion = $mesoregion;
+        return $this;
+    }
+
+    public function getMicroregion() {
+        return $this->microregion;
+    }
+    public function setMicroregion($microregion) {
+        $this->microregion = $microregion;
+        return $this;
+    }
+
     public function getCRC32(){
         $string  = "";
-        $string .= $this->externalId.$this->name.$this->city.$this->neighborhood.$this->getZip().$this->zip.$this->country.$this->state.$this->district;
+        $string .= $this->externalId
+          .$this->name
+          .$this->city
+          .$this->neighborhood
+          .$this->getZip()
+          .$this->zip
+          .$this->country
+          .$this->state
+          .$this->district
+          .$this->ibge
+          .$this->mesoregion
+          .$this->microregion;
         return hash("crc32", $string);
     }
 }

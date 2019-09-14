@@ -74,7 +74,7 @@ date_default_timezone_set("America/New_York");
                     echo "<tr>";
                     echo "<td>$i</td>";
                     foreach ($line as $name => $column) {
-                        echo "<td>$column</td>";
+                        echo "<td>".mb_convert_encoding($column, "UTF-8", "ASCII, ISO-8859-1, CP1251, CP1252")."</td>";
                     }
                     echo "</tr>";
 

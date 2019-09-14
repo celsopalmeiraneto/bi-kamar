@@ -96,11 +96,11 @@ class ETLProduct extends ETLBase{
                 $res = $res->fetch_row();
                 if($res[1]!=$newProduct->getCRC32()){ //If the record is different.
                     $newProduct->setProductId($res[0]);
-                    $query = "update d_product set 
-                    name =  '".$newProduct->getName()."', 
-                    manufacturer = '".$newProduct->getManufacturer()."', 
-                    distributor = '".$newProduct->getDistributor()."', 
-                    category = '".$newProduct->getCategory()."', 
+                    $query = "update d_product set
+                    name =  '".$newProduct->getName()."',
+                    manufacturer = '".$newProduct->getManufacturer()."',
+                    distributor = '".$newProduct->getDistributor()."',
+                    category = '".$newProduct->getCategory()."',
                     line = '".$newProduct->getLine()."'
                     where productid = ".$newProduct->getProductId();
                     $res = $banco->query($query);
@@ -176,9 +176,9 @@ class ETLProduct extends ETLBase{
         for ($i=0; $i < $numRec; $i++) {
             $grupo = dbase_get_record_with_names($handGrupo, $i);
             if($grupo["CODIGO"]==$codigo && $grupo["deleted"] == 0){
-                $retorno = $grupo["NOME"];
+                $retorno = mb_convert_encoding($grupo["NOME"], "UTF-8", "ASCII, ISO-8859-1, CP1251, CP1252");
             }
-        }        
+        }
         dbase_close($handGrupo);
         return $retorno;
     }
@@ -189,7 +189,7 @@ class ETLProduct extends ETLBase{
         for ($i=0; $i < $numRec; $i++) {
             $linha = dbase_get_record_with_names($handLinha, $i);
             if($linha["CODIGO"]==$codigo  && $linha["deleted"] == 0){
-                $retorno = $linha["NOME"];
+              $retorno = mb_convert_encoding($linha["NOME"], "UTF-8", "ASCII, ISO-8859-1, CP1251, CP1252");
             }
         }
         dbase_close($handLinha);
